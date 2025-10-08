@@ -41,6 +41,7 @@ header {
     margin-top: 16px;
     padding: 12px 24px 12px 24px;
     background: white;
+    width: 30vw;
     display: flex;
     align-items: center;
 }
@@ -73,7 +74,7 @@ header {
 }
 
 .shadow {
-    box-shadow: 0 5px 10px rgba(154, 160, 185, .05), 0 15px 40px rgba(166, 173, 201, .2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.548), 0 25px 40px rgba(166, 173, 201, .2);
 }
 header a{
     text-decoration: none;
@@ -140,22 +141,22 @@ input[type=text], input[type=date], .btn-submit:focus {
 }
 
 .check-button {
-    background: url('../assets/check-outline.svg');
+    background: url('../assets/check-circle-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
-    margin-left: auto;
+    margin-left: 16px;
     cursor: pointer;
     border: none;
 }
 
 .check-button:hover {
-    background: url('../assets/check-solid.svg');
+    background: url('../assets/check-circle-solid-24.png');
     background-size: contain;
 }
 
 .trash-button {
-    background: url('../assets/trash-outline.svg');
+    background: url('../assets/trash-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
@@ -165,12 +166,12 @@ input[type=text], input[type=date], .btn-submit:focus {
 }
 
 .trash-button:hover {
-    background: url('../assets/trash-fill.svg');
+    background: url('../assets/trash-solid-24.png');
     background-size: contain;
 }
 
 .undo-button {
-    background: url('../assets/undo-ouline.svg');
+    background: url('../assets/undo-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
@@ -178,11 +179,20 @@ input[type=text], input[type=date], .btn-submit:focus {
     cursor: pointer;
     border: none;
 }
-
-.undo-button:hover {
-    background: url('../assets/undo-ouline.svg');
+.edit-button {
+    background: url('../assets/edit-alt-regular-24.png');
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    cursor: pointer;
+    border: none;
+}
+.edit-button:hover {
+    background: url('../assets/edit-alt-solid-24.png');
     background-size: contain;
 }
+
 
 .check-button:focus, .trash-button {
     outline: none;

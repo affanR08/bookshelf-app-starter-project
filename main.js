@@ -19,6 +19,7 @@ function generateId() {
   return +new Date();
 }
 
+
 function generateBookObject(id, book, author, year, isCompleted) {
   return {
     id,
@@ -45,7 +46,7 @@ function findBookIndex(bookId) {
     }
   }
   return -1;
-}
+} 
 
 
 /**
@@ -80,12 +81,13 @@ function loadDataFromStorage() {
 
   if (data !== null) {
     for (const book of data) {
-      books.push(books);
+      books.push(book);
     }
   }
 
   document.dispatchEvent(new Event(RENDER_EVENT));
 }
+
 
 function makeBook(bookObject) {
 
@@ -94,6 +96,7 @@ function makeBook(bookObject) {
   const textTitle = document.createElement('h3');
   textTitle.innerText = book;
   textTitle.setAttribute('data-testid',`bookItemTitle`)
+  textTitle.setAttribute('id', 'bookItemTitle')
 
   const textAuthor = document.createElement('p');
   textAuthor.innerText = author;
@@ -110,8 +113,8 @@ function makeBook(bookObject) {
   const container = document.createElement('div');
   container.classList.add('item', 'shadow')
   container.append(textContainer);
-  container.setAttribute('id', `book-${id}`);
-  container.setAttribute('data-testid', `bookItem`)
+  container.setAttribute('data-bookid', `book-${id}`);
+  container.setAttribute('data-testid', `bookItem`);
 
   if (isCompleted) {
 
@@ -135,8 +138,12 @@ function makeBook(bookObject) {
     checkButton.addEventListener('click', function () {
       addBookToCompleted(id);
     });
-
-    container.append(checkButton);
+    const editButton = document.createElement('button');
+    editButton.classList.add('edit-button');
+    editButton.addEventListener('click', function () {
+    editBook(id);
+    });
+    container.append(editButton, checkButton);
   }
 
   return container;
@@ -154,6 +161,26 @@ function addBook() {
 
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
+}
+function editBook(bookId /* HTMLELement */) {
+  const bookTarget = findBook(bookId);
+
+  if (bookTarget == null) return alert("Buku tidak ditemukan");
+
+  const newTitle = prompt("Edit Judul Buku", bookTarget.book);
+  const newAuthor = prompt("Edit Nama Author", bookTarget.author);
+  const newYear = prompt("Edit Tahun Terbit", bookTarget.year);
+
+  if (newTitle !== null && newAuthor !== null && newYear !== null) {
+    bookTarget.book = newTitle;
+    bookTarget.author = newAuthor;
+    bookTarget.year = newYear;
+    
+    document.dispatchEvent(new Event(RENDER_EVENT));
+    saveData();
+  } else {
+    alert("Edit dibatalkan, data tidak tersimpan");
+  }
 }
 
 function addBookToCompleted(bookId /* HTMLELement */) {
@@ -230,3 +257,39 @@ document.addEventListener(SAVED_EVENT, function () {
     toast.classList.remove("show");
   }, 3000);
 });
+// function n(t) {
+//         t.preventDefault();
+//         const n = document.querySelector("#searchBookTitle");
+//         query = n.value,
+//         query ? c(books.filter((function(e) {
+//             return books.title.toLowerCase().includes(query.toLowerCase())
+//         }
+//         ))) : c(books)
+//     }
+    function search(t){
+      t.preventDefault();
+      const n = document.querySelector('#searchBookTitle');
+      query = n.value,
+      query ? makeBook(books.filter((function(e){
+        return books.title.toLowerCase().includes(query.toLowerCase())
+      }))) :makeBook(books)
+    }
+
+    ( () => {
+        function search(t){
+      t.preventDefault();
+      const n = document.querySelector('#searchBookTitle');
+      query = n.value,
+      query ? makeBook(books.filter((function(e){
+        return e.title.toLowerCase().includes(query.toLowerCase())
+      }))) :makeBook(books)
+    }      
+ window.addEventListener("load", (function() {
+        e = JSON.parse(localStorage.getItem("books")) || [],
+        makeBook(e);
+        const d = document.querySelector("#searchBook");
+        d.addEventListener("submit", search)
+ }
+    ));
+    }
+  )();

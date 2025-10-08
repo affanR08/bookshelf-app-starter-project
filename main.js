@@ -20,10 +20,10 @@ function generateId() {
 }
 
 
-function generateBookObject(id, book, author, year, isCompleted) {
+function generateBookObject(id, title, author, year, isCompleted) {
   return {
     id,
-    book,
+    title,
     author,
     year,
     isCompleted
@@ -118,28 +118,25 @@ function makeBook(bookObject) {
 
   if (isCompleted) {
 
-    const undoButton = document.createElement('button');
-    undoButton.classList.add('undo-button');
-    undoButton.addEventListener('click', function () {
-      undoBookFromCompleted(id);
-    });
-
     const trashButton = document.createElement('button');
     trashButton.classList.add('trash-button');
+    trashButton.setAttribute('data-testid', 'bookItemDeleteButton');
     trashButton.addEventListener('click', function () {
       removeBookFromCompleted(id);
     });
 
-    container.append(undoButton, trashButton);
+    container.append(trashButton);
   } else {
 
     const checkButton = document.createElement('button');
     checkButton.classList.add('check-button');
+    checkButton.setAttribute('data-testid', 'bookItemIsCompleteButton');
     checkButton.addEventListener('click', function () {
       addBookToCompleted(id);
     });
     const editButton = document.createElement('button');
     editButton.classList.add('edit-button');
+    editButton.setAttribute('data-testid', 'bookItemEditButton');
     editButton.addEventListener('click', function () {
     editBook(id);
     });
@@ -257,39 +254,37 @@ document.addEventListener(SAVED_EVENT, function () {
     toast.classList.remove("show");
   }, 3000);
 });
-// function n(t) {
-//         t.preventDefault();
-//         const n = document.querySelector("#searchBookTitle");
-//         query = n.value,
-//         query ? c(books.filter((function(e) {
-//             return books.title.toLowerCase().includes(query.toLowerCase())
-//         }
-//         ))) : c(books)
-//     }
-    function search(t){
-      t.preventDefault();
-      const n = document.querySelector('#searchBookTitle');
-      query = n.value,
-      query ? makeBook(books.filter((function(e){
-        return books.title.toLowerCase().includes(query.toLowerCase())
-      }))) :makeBook(books)
+function search(event) {
+  event.preventDefault();
+  const searchInput = document.querySelector('#searchBookTitle');
+  const query = searchInput.value.toLowerCase();
+  const uncompletedBookList = document.getElementById('incompleteBookList');
+  const listCompleted = document.getElementById('completeBookList');
+  uncompletedBookList.innerHTML = '';
+  listCompleted.innerHTML = '';
+
+  const filteredBooks = query 
+    ? books.filter(book => (book.title || book.book) && ((book.title || book.book).toLowerCase().includes(query)))
+    : books;
+
+  for (const bookItem of filteredBooks) {
+    const bookElement = makeBook(bookItem);
+    if (bookItem.isCompleted) {
+      listCompleted.append(bookElement);
+    } else {
+      uncompletedBookList.append(bookElement);
     }
+  }
+}
 
     ( () => {
-        function search(t){
-      t.preventDefault();
-      const n = document.querySelector('#searchBookTitle');
-      query = n.value,
-      query ? makeBook(books.filter((function(e){
-        return e.title.toLowerCase().includes(query.toLowerCase())
-      }))) :makeBook(books)
-    }      
+       
  window.addEventListener("load", (function() {
-        e = JSON.parse(localStorage.getItem("books")) || [],
+        e = JSON.parse(localStorage.getItem("BOOK_APPS")) || [],
         makeBook(e);
         const d = document.querySelector("#searchBook");
         d.addEventListener("submit", search)
  }
-    ));
+    ))
     }
   )();

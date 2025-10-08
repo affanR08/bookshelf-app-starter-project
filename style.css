@@ -8,6 +8,7 @@ html, body {
     font-family: Raleway, sans-serif;
     margin: 0;
     padding: 0;
+    animation: fadein 0.2s;
     box-sizing: border-box;
 }
 
@@ -160,7 +161,7 @@ input[type=text], input[type=date], .btn-submit:focus {
     background-size: contain;
     width: 40px;
     height: 40px;
-    margin-left: 16px;
+    margin-left: auto;
     cursor: pointer;
     border: none;
 }

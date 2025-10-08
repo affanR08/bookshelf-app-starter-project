@@ -142,7 +142,7 @@ input[type=text], input[type=date], .btn-submit:focus {
 }
 
 .check-button {
-    background: url('../assets/check-circle-regular-24.png');
+    background: url('assets/check-circle-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
@@ -152,12 +152,12 @@ input[type=text], input[type=date], .btn-submit:focus {
 }
 
 .check-button:hover {
-    background: url('../assets/check-circle-solid-24.png');
+    background: url('assets/check-circle-solid-24.png');
     background-size: contain;
 }
 
 .trash-button {
-    background: url('../assets/trash-regular-24.png');
+    background: url('assets/trash-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
@@ -167,12 +167,12 @@ input[type=text], input[type=date], .btn-submit:focus {
 }
 
 .trash-button:hover {
-    background: url('../assets/trash-solid-24.png');
+    background: url('assets/trash-solid-24.png');
     background-size: contain;
 }
 
 .undo-button {
-    background: url('../assets/undo-regular-24.png');
+    background: url('assets/undo-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
@@ -181,7 +181,7 @@ input[type=text], input[type=date], .btn-submit:focus {
     border: none;
 }
 .edit-button {
-    background: url('../assets/edit-alt-regular-24.png');
+    background: url('assets/edit-alt-regular-24.png');
     background-size: contain;
     width: 40px;
     height: 40px;
@@ -190,7 +190,7 @@ input[type=text], input[type=date], .btn-submit:focus {
     border: none;
 }
 .edit-button:hover {
-    background: url('../assets/edit-alt-solid-24.png');
+    background: url('assets/edit-alt-solid-24.png');
     background-size: contain;
 }
 

@@ -123,8 +123,14 @@ function makeBook(bookObject) {
     trashButton.addEventListener('click', function () {
       removeBookFromCompleted(id);
     });
+    const undoButton = document.createElement('button');
+    undoButton.classList.add('undo-button');
+    undoButton.setAttribute('data-testid', 'bookItemUndoButton');
+    undoButton.addEventListener('click', function () {
+      undoBookFromCompleted(id);
+    });
 
-    container.append(trashButton);
+    container.append(undoButton, trashButton);
   } else {
 
     const checkButton = document.createElement('button');
@@ -149,7 +155,7 @@ function addBook() {
 
   const title = document.getElementById('bookFormTitle').value;
   const author = document.getElementById('bookFormAuthor').value;
-  const year = document.getElementById('bookFormYear').value;
+  const year = Number(document.getElementById('bookFormYear').value);
   const isComplete = document.getElementById('bookFormIsComplete').checked;
 
   const generatedID = generateId();

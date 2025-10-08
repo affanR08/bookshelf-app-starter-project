@@ -161,7 +161,7 @@ input[type=text], input[type=date], .btn-submit:focus {
     background-size: contain;
     width: 40px;
     height: 40px;
-    margin-left: auto;
+    margin-left: 16px;
     cursor: pointer;
     border: none;
 }

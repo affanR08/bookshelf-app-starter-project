@@ -6,7 +6,7 @@ console.log('Hello, world!');
  *      id: <int>
  *      task: <string>
  *      timestamp: <string>
- *      isCompleted: <boolean>
+ *      isComplete: <boolean>
  *    }
  * ]
  */
@@ -20,13 +20,13 @@ function generateId() {
 }
 
 
-function generateBookObject(id, title, author, year, isCompleted) {
+function generateBookObject(id, title, author, year, isComplete) {
   return {
     id,
     title,
     author,
     year,
-    isCompleted
+    isComplete
   };
 }
 
@@ -90,11 +90,10 @@ function loadDataFromStorage() {
 
 
 function makeBook(bookObject) {
-
-  const {id, book, author, year, isCompleted} = bookObject;
+  const {id, title, author, year, isComplete} = bookObject;
 
   const textTitle = document.createElement('h3');
-  textTitle.innerText = book;
+  textTitle.innerText = title;
   textTitle.setAttribute('data-testid',`bookItemTitle`)
   textTitle.setAttribute('id', 'bookItemTitle')
 
@@ -116,7 +115,7 @@ function makeBook(bookObject) {
   container.setAttribute('data-bookid', `book-${id}`);
   container.setAttribute('data-testid', `bookItem`);
 
-  if (isCompleted) {
+  if (isComplete) {
 
     const trashButton = document.createElement('button');
     trashButton.classList.add('trash-button');
@@ -147,13 +146,14 @@ function makeBook(bookObject) {
 }
 
 function addBook() {
-  const textBook = document.getElementById('bookFormTitle').value;
+
+  const title = document.getElementById('bookFormTitle').value;
   const author = document.getElementById('bookFormAuthor').value;
   const year = document.getElementById('bookFormYear').value;
-  const isCompleted = document.getElementById('bookFormIsComplete').checked;
+  const isComplete = document.getElementById('bookFormIsComplete').checked;
 
   const generatedID = generateId();
-  const bookObject = generateBookObject(generatedID, textBook, author, year, isCompleted, false);
+  const bookObject = generateBookObject(generatedID, title, author, year, isComplete);
   books.push(bookObject);
 
   document.dispatchEvent(new Event(RENDER_EVENT));
@@ -164,12 +164,12 @@ function editBook(bookId /* HTMLELement */) {
 
   if (bookTarget == null) return alert("Buku tidak ditemukan");
 
-  const newTitle = prompt("Edit Judul Buku", bookTarget.book);
+  const newTitle = prompt("Edit Judul Buku", bookTarget.title);
   const newAuthor = prompt("Edit Nama Author", bookTarget.author);
   const newYear = prompt("Edit Tahun Terbit", bookTarget.year);
 
   if (newTitle !== null && newAuthor !== null && newYear !== null) {
-    bookTarget.book = newTitle;
+    bookTarget.title = newTitle;
     bookTarget.author = newAuthor;
     bookTarget.year = newYear;
     
@@ -185,7 +185,7 @@ function addBookToCompleted(bookId /* HTMLELement */) {
 
   if (bookTarget == null) return;
 
-  bookTarget.isCompleted = true;
+  bookTarget.isComplete = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
 }
@@ -205,7 +205,7 @@ function undoBookFromCompleted(bookId /* HTMLELement */) {
   const bookTarget = findBook(bookId);
   if (bookTarget == null) return;
 
-  bookTarget.isCompleted = false;
+  bookTarget.isComplete = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
   saveData();
 }
@@ -238,7 +238,7 @@ document.addEventListener(RENDER_EVENT, function () {
 
   for (const bookItem of books) {
     const bookElement = makeBook(bookItem);
-    if (bookItem.isCompleted) {
+    if (bookItem.isComplete) {
       listCompleted.append(bookElement);
     } else {
       uncompletedBookList.append(bookElement);
@@ -264,12 +264,12 @@ function search(event) {
   listCompleted.innerHTML = '';
 
   const filteredBooks = query 
-    ? books.filter(book => (book.title || book.book) && ((book.title || book.book).toLowerCase().includes(query)))
+    ? books.filter(book => book.title && book.title.toLowerCase().includes(query))
     : books;
 
   for (const bookItem of filteredBooks) {
     const bookElement = makeBook(bookItem);
-    if (bookItem.isCompleted) {
+    if (bookItem.isComplete) {
       listCompleted.append(bookElement);
     } else {
       uncompletedBookList.append(bookElement);
